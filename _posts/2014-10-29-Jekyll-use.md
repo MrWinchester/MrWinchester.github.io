@@ -1,8 +1,12 @@
 ---
-layout :post
-title :Jekyll
+layout:     post
+title:      "Jekyll Use"
+subtitle:   "ubuntu12.04+Github+Jekyll-bootstrap记录"
+date:       2014-10-29 22:48:00
+author:     "winchester"
 header-img: "img/stone.jpg"
 ---
+
 
 # ubuntu12.04+Github+Jekyll-bootstrap记录
 ---
