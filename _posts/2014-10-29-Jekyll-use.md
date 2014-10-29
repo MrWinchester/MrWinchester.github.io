@@ -1,5 +1,5 @@
 ---
-layout :page
+layout :post
 title :Jekyll
 header-img: "img/stone.jpg"
 ---
