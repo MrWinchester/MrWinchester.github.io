@@ -4,6 +4,8 @@ title:      "Jekyll Use"
 subtitle:   "ubuntu12.04+Github+Jekyll-bootstrap记录"
 date:       2014-10-29 22:48:00
 author:     "winchester"
+tags :      [Jekyll-bootstrap]
+category :  Jekyll
 header-img: "img/stone.jpg"
 ---
 
