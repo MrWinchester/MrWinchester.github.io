@@ -1,12 +1,9 @@
 ---
 layout:     post
-title:      "Jekyll Use"
-subtitle:   "ubuntu12.04+Github+Jekyll-bootstrap记录"
+title:      "Jekyll使用"
 date:       2014-10-29 22:48:00
-author:     "winchester"
-tags :      [Jekyll-bootstrap]
-category :  Jekyll
-header-img: "img/stone.jpg"
+description: "Jekyll使用"
+tag :      [Jekyll-bootstrap]
 ---
 
 
@@ -33,7 +30,7 @@ $ gem install jekyll</code></pre>
 <pre><code>$ git clone https://github.com/plusjade/jekyll-bootstrap.git USERNAME.github.com
 $ cd USERNAME.github.com
 $ git remote set-url origin git@github.com:USERNAME/USERNAME.github.com.git
-$ git push origin master 
+$ git push origin master
 (此处如果遇到 permission denied,参考最后的第三个链接  )</code></pre>
 - 访问http://USERNAME.github.com ，github已经为你生成了一个站点。
 
