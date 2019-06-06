@@ -1,4 +1,4 @@
-# goseryuu
+# goseiryuu
 
 模板使用自[leopard](http://baixin.io)
 
