@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+  
+  <title>设计模式 - Hexo</title>
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    <link rel='manifest' href='/manifest.json'>
+  
+
+  
+<link rel="stylesheet" href="/css/var.css">
+
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+<link rel="stylesheet" href="/css/typography.css">
+
+  
+<link rel="stylesheet" href="/css/code-highlighting.css">
+
+  
+<link rel="stylesheet" href="/css/components.css">
+
+  
+<link rel="stylesheet" href="/css/nav.css">
+
+  
+<link rel="stylesheet" href="/css/paginator.css">
+
+  
+<link rel="stylesheet" href="/css/footer.css">
+
+  
+<link rel="stylesheet" href="/css/post-list.css">
+
+  
+<link rel="stylesheet" href="/css/waline.css">
+
+  
+  
+  
+<link rel="stylesheet" href="/css/post.css">
+
+  
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+    <body>
+        <nav id="theme-nav">
+    <div class="inner">
+        <a class="title" href="/">Blog</a>
+        <div class="nav-arrow"></div>
+        <div class="nav-items">
+            <a class="nav-item nav-item-home" href="/">主页</a>
+            
+            
+            <a class="nav-item" href="/archives">归档</a>
+            
+            
+            
+            <a class="nav-item" href="/friends">朋友</a>
+            
+            
+            
+            <a class="nav-item" href="/projects">项目</a>
+            
+            
+            
+            <a class="nav-item" href="/about">关于</a>
+            
+            
+            
+            <a class="nav-item nav-item-github nav-item-icon" href="https://github.com/MrWillCom" target="_blank">&nbsp;</a>
+            
+            
+            
+            <a class="nav-item nav-item-codepen nav-item-icon" href="https://codepen.io/mrwillcom" target="_blank">&nbsp;</a>
+            
+            
+            
+            <a class="nav-item nav-item-patreon nav-item-icon" href="https://www.patreon.com/MrWillCom" target="_blank">&nbsp;</a>
+            
+            
+        </div>
+    </div>
+</nav>
+        <article class="post">
+    <div class="meta">
+        
+        <div class="date" id="date">
+            
+            
+            
+            
+            <span>April</span>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <span>9,</span>
+            <span>2021</span>
+        </div>
+        
+
+        <h2 class="title">设计模式</h2>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="content">
+        <h1 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h1><ul>
+<li>懒汉式-双重校验锁<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;</span><br><span class="line"></span><br><span class="line">  private volatile static Singleton uniqueInstance;</span><br><span class="line"></span><br><span class="line">  private Singleton() &#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public static Singleton getUniqueInstance() &#123;</span><br><span class="line">      if (uniqueInstance &#x3D;&#x3D; null) &#123;  &#x2F;&#x2F;1</span><br><span class="line">          synchronized (Singleton.class) &#123;</span><br><span class="line">              if (uniqueInstance &#x3D;&#x3D; null) &#123; &#x2F;&#x2F;2</span><br><span class="line">                  uniqueInstance &#x3D; new Singleton();</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      return uniqueInstance;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>如果没有第二层的循环可以吗?<ul>
+<li>答案：不行，多线程并发的时候，虽然会在if锁住，但是后面都会执行new Singleton()，导致实例化多次</li>
+</ul>
+</li>
+<li>如果没有第一层循环可以吗?<ul>
+<li>答案：不行，因为每次取getUniqueInstance，都会加锁阻塞，导致性能有一定损耗。</li>
+</ul>
+</li>
+<li>volatile可以省略吗?<ul>
+<li>答案：不行，volatile有两个功能，1.确保共享变量再多线程环境下的可见性 2.禁止JVM指令重排序 <code>uniqueInstance = new Singleton();</code>并不是原子性动作，new对象分为3个动作：(1)分配内存空间。(2)初始化对象。(3)将 uniqueInstance 指向分配的内存地址。</li>
+<li>指令重排序：一般来说，处理器为了提高程序运行效率，可能会对输入代码进行优化，它不保证程序中各个语句的执行先后顺序同代码中的顺序一致，但是它会保证程序最终执行结果和代码顺序执行的结果是一致的。new对象的三个动作由于没有<code>前后依赖关系</code>，所以有可能执行顺序是123，也有可能是132，如果是132，多线程环境下，若此时恰好有线程B获取实例，就有可能获取到一个还没有被初始化的对象导致报错。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>每日一更，持续更新中……<br>参考自<a target="_blank" rel="noopener" href="https://github.com/CyC2018/Interview-Notebook/blob/master/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.md">设计模式</a></li>
+</ul>
+
+    </div>
+
+    <div class="about">
+        <h1>关于本文</h1>
+        <p>本文作者 goseiryuu, 许可由 <a
+                href=""></a>.</p>
+    </div>
+
+    
+        
+    
+</article>
+        <footer>
+    <div class="inner">
+        <div class="links">
+            
+        </div>
+        &copy; 2021 goseiryuu<br />
+        驱动由 <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+</footer>
+
+        
+<script src="/js/main.js"></script>
+
+        
+    </body>
+</html>
